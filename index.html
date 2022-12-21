@@ -19,9 +19,22 @@
             <button onclick="onPanTo()"class="btn-pan">Pan Map to Tokyo</button>
              <p>You are at: <span class="user-pos"></span></p>
             <p>Locations: 
-                <pre class="locs"></pre>
+                <pre class="locs">
+                    <table class="table table-light table-m ">
+                        <thead>
+                            <tr>
+                                <th data-trans="id">Location</th>
+                                <th data-trans="tb-title">Lat</th>
+                                <th data-trans="tb-price">Lng</th>
+                                <th data-trans="tb-actions" colspan="2">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="books-list table table-striped table-light "></tbody>
+                    </table>
+                </pre>
             </p>
         </main>
+        <script src="lib/axios.js"></script>
         <script type="module" src="js/app.controller.js"></script>
     </body>
 </html>

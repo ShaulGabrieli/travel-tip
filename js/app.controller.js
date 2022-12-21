@@ -1,12 +1,20 @@
-import { locService } from './services/loc.service.js'
+
+// import { locService } from './services/loc.service.js'
 import { mapService } from './services/map.service.js'
-// import { placeService} from './services/place.service.js'
+import { placeService } from './services/place.service.js'
+
+
+export const locService = {
+    renderPlaces
+}
 
 window.onload = onInit
 window.onAddMarker = onAddMarker
 window.onPanTo = onPanTo
 window.onGetLocs = onGetLocs
 window.onGetUserPos = onGetUserPos
+window.onDeletePlace = onDeletePlace
+
 
 function onInit() {
     mapService.initMap()
@@ -14,8 +22,14 @@ function onInit() {
             console.log('Map is ready')
         })
         .catch(() => console.log('Error: cannot init map'))
+        
+        // mapService.getGMap().
 }
 
+
+
+// mapService.initMap(). placeService.getPlacesForDisplay().then(places=>
+//     renderPlaces(places))
 // This function provides a Promise API to the callback-based-api of getCurrentPosition
 function getPosition() {
     console.log('Getting Pos')
@@ -30,11 +44,18 @@ function onAddMarker() {
 }
 
 function onGetLocs() {
-    locService.getLocs()
-        .then(locs => {
-            console.log('Locations:', locs)
-            document.querySelector('.locs').innerText = JSON.stringify(locs, null, 2)
-        })
+    console.log('Getting Location...')
+    placeService.getPlacesForDisplay().then(places=>{
+        renderPlaces(places)
+    })
+    // placeService.getLocs()
+    //     .then(locs => {
+    //         console.log('Locations:', locs)
+            
+    //         renderPlaces(locs)
+
+            // document.querySelector('.locs').innerText = JSON.stringify(locs, null, 2)
+        // })
 }
 
 function onGetUserPos() {
@@ -51,4 +72,27 @@ function onGetUserPos() {
 function onPanTo() {
     console.log('Panning the Map')
     mapService.panTo(35.6895, 139.6917)
+}
+
+
+function renderPlaces(places) {
+        var strHtmls = places.map(
+            (place) => `
+        <tr> 
+            <td> ${place.name}</td>
+            <td> ${place.lat}</td>
+            <td> ${place.lng}</td>
+            <td> <button onclick="onGo()">go</button></td>
+            <td> <button onclick="onDeletePlace('${place.id}')" >delete</button></td>
+        </tr>`
+        )
+    
+        document.querySelector('.books-list').innerHTML = strHtmls.join('')
+    
+    
+   
+}
+function onDeletePlace(placeId){
+placeService.deletePlace(placeId).then(res=> onGetLocs())
+ 
 }
