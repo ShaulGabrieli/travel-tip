@@ -9,6 +9,7 @@ export const mapService = {
 var gMap
 
 function initMap(lat = 32.0749831, lng = 34.9120554) {
+    const myLatlng = { lat, lng }
     console.log('InitMap')
     return _connectGoogleApi()
         .then(() => {
@@ -18,9 +19,29 @@ function initMap(lat = 32.0749831, lng = 34.9120554) {
                 center: { lat, lng },
                 zoom: 15
             })
+            let infoWindow = new google.maps.InfoWindow({
+                content: "Click the map to get Lat/Lng!",
+                position: myLatlng,
+              });
+            
+              infoWindow.open(gMap);
+              // Configure the click listener.
+              gMap.addListener("click", (mapsMouseEvent) => {
+                // Close the current InfoWindow.
+                infoWindow.close();
+                // Create a new InfoWindow.
+                infoWindow = new google.maps.InfoWindow({
+                  position: mapsMouseEvent.latLng,
+                });
+                infoWindow.setContent(
+                  JSON.stringify(mapsMouseEvent.latLng.toJSON(), null, 2)
+                );
+                infoWindow.open(gMap);
+              });
             console.log('Map!', gMap)
         })
 }
+
 
 function addMarker(loc) {
     var marker = new google.maps.Marker({
@@ -39,7 +60,7 @@ function panTo(lat, lng) {
 
 function _connectGoogleApi() {
     if (window.google) return Promise.resolve()
-    const API_KEY = '' //TODO: Enter your API Key
+    const API_KEY = 'AIzaSyARsjihrwDbtuTo_bFddachb_6RGWDwQEQ' //TODO: Enter your API Key
     var elGoogleApi = document.createElement('script')
     elGoogleApi.src = `https://maps.googleapis.com/maps/api/js?key=${API_KEY}`
     elGoogleApi.async = true
@@ -50,3 +71,4 @@ function _connectGoogleApi() {
         elGoogleApi.onerror = () => reject('Google script failed to load')
     })
 }
+
