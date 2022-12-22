@@ -4,11 +4,16 @@ export const mapService = {
     initMap,
     addMarker,
     panTo,
-    getGMap
+    getGMap,
+    getSearchPlace
+
 }
 
 // Var that is used throughout this Module (not global)
-var gMap
+let gMap
+const API_KEY = 'AIzaSyARCuW6vBVWfD8OCam21Gn0W1X9VGD5f2Y'
+
+
 
 function initMap(lat = 32.0749831, lng = 34.9120554) {
     const myLatlng = { lat, lng }
@@ -61,7 +66,6 @@ function _connectGoogleApi() {
 }
 
 function getLocationName(latLng) {
-    const API_KEY = 'AIzaSyARCuW6vBVWfD8OCam21Gn0W1X9VGD5f2Y'
     return axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latLng.lat},${latLng.lng}&key=${API_KEY}`).then((res) => {
         return {
             name: res.data.results[0].address_components[2].long_name, 
@@ -77,5 +81,13 @@ function getLocationName(latLng) {
 function getGMap (){
     console.log('gMap', gMap)
     return gMap
+}
+
+
+function getSearchPlace(value){
+    return axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${value},+CA&key=${API_KEY}`
+    ).then((res) => {
+return res.data.results[0].geometry.location;
+    })
 }
 

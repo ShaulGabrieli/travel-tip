@@ -12,24 +12,25 @@
             </nav>
         </header>
         <main>
+            <input type="text" onkeyup="onSearchPlace(this.value)">
             <div id="map" style="width: 100%; height: 400px;"></div>
-            <button onclick="onAddMarker()" class="btn-add-marker">Add Marker Speific Location</button>
-            <button onclick="onGetUserPos()" class="btn-user-pos">Get User Position</button>
+            <!-- <button onclick="onAddMarker()" class="btn-add-marker">Add Marker Speific Location</button> -->
+            <button onclick="onGetUserPos()" class="btn-user-pos">My Place</button>
             <button onclick="onGetLocs()" class="btn-get-locs">Get Locations</button>
-            <button onclick="onPanTo()"class="btn-pan">Pan Map to Tokyo</button>
+            <!-- <button onclick="onMyPlace()"class="btn-pan">My Place</button> -->
              <p>You are at: <span class="user-pos"></span></p>
             <p>Locations: 
                 <pre class="locs">
                     <table class="table table-light table-m ">
                         <thead>
                             <tr>
-                                <th data-trans="id">Location</th>
-                                <th data-trans="tb-title">Lat</th>
-                                <th data-trans="tb-price">Lng</th>
-                                <th data-trans="tb-actions" colspan="2">Actions</th>
+                                <th >Location</th>
+                                <th >Lat</th>
+                                <th >Lng</th>
+                                <th  colspan="2">Actions</th>
                             </tr>
                         </thead>
-                        <tbody class="books-list table table-striped table-light "></tbody>
+                        <tbody class="place-list table table-striped table-light "></tbody>
                     </table>
                 </pre>
             </p>
